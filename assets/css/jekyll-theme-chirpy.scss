@@ -1,10 +1,8 @@
----
----
 
-@use 'main
-{%- if jekyll.environment == 'production' -%}
-  .bundle
-{%- endif -%}
-';
+/* Include Bootstrap (if applicable) */
+@use 'node_modules/bootstrap/scss/bootstrap';
+
+/* Main SCSS file */
+@use 'jekyll-theme-chirpy.scss';
 
 /* append your custom style below */
