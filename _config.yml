@@ -105,7 +105,13 @@ avatar:
 social_preview_image: # string, local or CORS resources
 
 # boolean type, the global switch for TOC in posts.
-toc: true
+toc:
+  enable: true
+  min_level: 2
+  max_level: 3
+
+heading_anchors:
+  enable: true
 
 comments:
   # Global switch for the post-comment system. Keeping it empty means disabled.
