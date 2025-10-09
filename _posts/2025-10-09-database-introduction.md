@@ -1,6 +1,6 @@
 ---
 title: "[데이터베이스] 1. 데이터베이스 시스템 개요 - Data, Database, DBMS의 개념"
-date: 2024-10-09 14:30:00 +0900
+date: 2025-10-09 14:30:00 +0900
 categories: [Computer Science, Database Systems]
 tags: [database-basics, data-modeling, dbms, theory, beginner]
 pin: false

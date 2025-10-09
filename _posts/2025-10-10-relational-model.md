@@ -1,6 +1,6 @@
 ---
 title: "[데이터베이스] 2. 관계형 모델 - Relation, 키, 관계 대수의 기초"
-date: 2024-10-10 14:30:00 +0900
+date: 2025-10-10 14:30:00 +0900
 categories: [Computer Science, Database Systems]
 tags: [relational-model, relation-schema, keys, relational-algebra, theory, intermediate]
 pin: false

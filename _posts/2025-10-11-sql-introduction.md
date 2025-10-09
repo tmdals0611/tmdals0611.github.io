@@ -1,6 +1,6 @@
 ---
 title: "[데이터베이스] 3. SQL 기초 - 데이터 정의, 기본 쿼리, 집계 함수"
-date: 2024-10-11 14:30:00 +0900
+date: 2025-10-11 14:30:00 +0900
 categories: [Computer Science, Database Systems]
 tags: [sql, ddl, dml, query, aggregate-functions, database-practice, intermediate]
 pin: false
