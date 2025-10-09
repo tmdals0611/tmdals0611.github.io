@@ -22,6 +22,10 @@ package-lock.json
 !.vscode/extensions.json
 !.vscode/tasks.json
 
+# PDF 강의 자료 (저작권 문제로 공개하지 않음)
+pdf/
+*.pdf
+
 # Misc
 _sass/vendors
 assets/js/dist
