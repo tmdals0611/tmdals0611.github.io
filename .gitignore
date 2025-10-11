@@ -25,6 +25,8 @@ package-lock.json
 # PDF 강의 자료 (저작권 문제로 공개하지 않음)
 pdf/
 *.pdf
+.claude/
+*.json
 
 # Misc
 _sass/vendors

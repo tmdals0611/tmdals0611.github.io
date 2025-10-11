@@ -5,7 +5,9 @@
       "Bash(git commit -m \"$(cat <<''EOF''\n데이터베이스 포스트 3개 추가 및 날짜 2025년으로 업데이트\n\n- 정규화 Part 2 포스트 추가 (Armstrong''s Axioms, BCNF/3NF 분해)\n- 데이터 저장 구조 포스트 추가 (파일 조직, 버퍼 관리)\n- 모든 포스트 날짜를 2024년에서 2025년으로 변경\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(git push:*)",
       "Bash(git mv:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\n블로그 포스트 날짜 수정 및 첫 글 삭제\n\n- 모든 포스트 날짜를 2025년 10월 → 2025년 1월로 변경\n- Jekyll은 미래 날짜의 포스트를 표시하지 않으므로 현재 날짜로 수정\n- 문제 해설 #1 포스트 추가 (데이터베이스 기초 개념)\n- \"첫 글\" 포스트 삭제\n- CLAUDE.md에 문제 해설 시리즈 계획 추가\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
