@@ -1,6 +1,6 @@
 ---
 title: "[데이터베이스] 6. 관계형 데이터베이스 설계와 정규화 (2) - 함수적 종속성 이론과 분해 알고리즘"
-date: 2025-10-14 14:30:00 +0900
+date: 2025-01-14 14:30:00 +0900
 categories: [Computer Science, Database Systems]
 tags: [relational-design, normalization, armstrong-axioms, canonical-cover, bcnf-decomposition, 3nf-decomposition, dependency-preservation, theory, advanced]
 math: true

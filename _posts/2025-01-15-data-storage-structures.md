@@ -1,6 +1,6 @@
 ---
 title: "[데이터베이스] 7. 데이터 저장 구조 - 파일 조직과 버퍼 관리"
-date: 2025-10-15 14:30:00 +0900
+date: 2025-01-15 14:30:00 +0900
 categories: [Computer Science, Database Systems]
 tags: [data-storage, file-organization, buffer-management, storage-structures, heap-file, sequential-file, columnar-storage, theory, advanced]
 math: true

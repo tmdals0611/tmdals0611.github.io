@@ -1,6 +1,6 @@
 ---
 title: "[데이터베이스] 5. 관계형 데이터베이스 설계와 정규화 (1) - 함수적 종속성과 정규형"
-date: 2025-10-13 14:30:00 +0900
+date: 2025-01-13 14:30:00 +0900
 categories: [Computer Science, Database Systems]
 tags: [relational-design, normalization, functional-dependencies, normal-forms, 1nf, bcnf, 3nf, theory, advanced]
 pin: false

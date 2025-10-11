@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\n데이터베이스 포스트 3개 추가 및 날짜 2025년으로 업데이트\n\n- 정규화 Part 2 포스트 추가 (Armstrong''s Axioms, BCNF/3NF 분해)\n- 데이터 저장 구조 포스트 추가 (파일 조직, 버퍼 관리)\n- 모든 포스트 날짜를 2024년에서 2025년으로 변경\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(git mv:*)",
+      "Bash(mv:*)"
     ],
     "deny": [],
     "ask": []
