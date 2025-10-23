@@ -529,8 +529,122 @@ image:
 ---
 ```
 
+### 🔧 **컴파일러설계 강의 시리즈**
+
+**목표**: 컴파일러의 동작 원리와 구조를 체계적으로 학습하여 프로그래밍 언어의 깊은 이해와 실무 응용 능력 확보
+
+#### PDF 자료 목록
+
+사용 가능한 PDF:
+1. `01. Instruction Set Architecture.pdf` - ISA 기초
+2. `02. Lexical Analysis.pdf` - 어휘 분석
+3. `03. Syntax Analysis - 1.pdf` - 구문 분석 1부
+4. `04. Syntax Analysis - 2.pdf` - 구문 분석 2부
+5. `05. Semantic Analysis.pdf` - 의미 분석
+
+#### 예상 포스트 시리즈
+
+**1. [컴파일러] Instruction Set Architecture**
+   - 출처: `01. Instruction Set Architecture.pdf`
+   - 예상 내용:
+     - ISA의 개념과 중요성
+     - RISC vs CISC 아키텍처
+     - 레지스터와 메모리 구조
+     - 명령어 형식과 주소 지정 모드
+     - 어셈블리 언어 기초
+
+**2. [컴파일러] 어휘 분석 (Lexical Analysis)**
+   - 출처: `02. Lexical Analysis.pdf`
+   - 예상 내용:
+     - 컴파일러 구조 개요
+     - 토큰(Token)과 렉심(Lexeme)
+     - 정규 표현식 (Regular Expression)
+     - 유한 오토마타 (Finite Automata)
+     - Lex/Flex를 이용한 어휘 분석기 구현
+
+**3. [컴파일러] 구문 분석 Part 1 (Syntax Analysis - 1)**
+   - 출처: `03. Syntax Analysis - 1.pdf`
+   - 예상 내용:
+     - 문맥 자유 문법 (Context-Free Grammar)
+     - 파스 트리(Parse Tree)와 구문 분석 트리
+     - 좌파생과 우파생
+     - 모호한 문법 (Ambiguous Grammar)
+     - Top-Down 파싱 기법
+     - 재귀 하강 파서 (Recursive Descent Parser)
+
+**4. [컴파일러] 구문 분석 Part 2 (Syntax Analysis - 2)**
+   - 출처: `04. Syntax Analysis - 2.pdf`
+   - 예상 내용:
+     - LL(1) 파서
+     - FIRST와 FOLLOW 집합
+     - Bottom-Up 파싱 기법
+     - LR 파서 (LR(0), SLR, LR(1))
+     - LALR 파서
+     - Yacc/Bison을 이용한 파서 생성
+
+**5. [컴파일러] 의미 분석 (Semantic Analysis)**
+   - 출처: `05. Semantic Analysis.pdf`
+   - 예상 내용:
+     - 의미 분석의 역할
+     - 기호 테이블 (Symbol Table)
+     - 타입 검사 (Type Checking)
+     - 스코프 규칙 (Scope Rules)
+     - 중간 코드 생성
+     - 추상 구문 트리 (Abstract Syntax Tree)
+
+#### 향후 확장 가능 주제
+
+6. **코드 생성 (Code Generation)**
+   - 중간 코드 표현 (Three-Address Code)
+   - 기본 블록과 흐름 그래프
+   - 타겟 코드 생성
+   - 명령어 선택
+
+7. **코드 최적화 (Code Optimization)**
+   - 지역 최적화 (Local Optimization)
+   - 전역 최적화 (Global Optimization)
+   - 레지스터 할당
+   - 루프 최적화
+
+8. **실습 프로젝트**
+   - 간단한 언어의 컴파일러 구현
+   - Lex & Yacc 활용 프로젝트
+   - LLVM 프레임워크 소개
+
+#### 포스트 작성 원칙
+
+- **이론과 실습의 결합**: 개념 설명 + 실제 코드 예제 (C/C++, 어셈블리)
+- **시각적 설명**: 상태 다이어그램, 파스 트리, 문법 다이어그램 등 적극 활용
+- **단계별 학습**: 컴파일러 프론트엔드부터 백엔드까지 순차적 진행
+- **도구 활용**: Lex/Flex, Yacc/Bison 등 실무 도구 소개
+- **실무 연계**: 실제 프로그래밍 언어의 컴파일러 구현 사례
+
+#### 컴파일러 시리즈 태그
+
+```yaml
+기초 개념: [compiler-basics, isa, assembly]
+프론트엔드: [lexical-analysis, syntax-analysis, semantic-analysis, parsing]
+도구: [lex, flex, yacc, bison, llvm]
+이론: [automata, grammar, cfg, regular-expression]
+실무: [compiler-implementation, language-design]
+```
+
+#### 컴파일러 포스트 Front Matter 템플릿
+
+```yaml
+---
+title: "[컴파일러] 1. Instruction Set Architecture"
+date: 2025-02-XX 14:30:00 +0900
+categories: [Computer Science, Compiler Design]
+tags: [compiler-basics, isa, assembly, risc, cisc, theory]
+pin: false
+math: true
+mermaid: true
+---
+```
+
 ## 프로젝트 상태
 
-**최종 업데이트**: 2025-01-09  
-**현재 상태**: main 브랜치에서 기본 설정 완료, 데이터베이스 포스트 시리즈 준비 중  
+**최종 업데이트**: 2025-02-05
+**현재 상태**: 데이터베이스 포스트 시리즈 완료, 컴파일러 설계 시리즈 계획 중
 **배포 상태**: https://tmdals0611.github.io 에서 확인 가능
