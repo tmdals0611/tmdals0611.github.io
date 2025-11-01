@@ -643,8 +643,269 @@ mermaid: true
 ---
 ```
 
+#### ✅ 작성 완료된 포스트 (5개)
+
+1. **[2025-02-06] Instruction Set Architecture (ISA)** (1,014줄)
+   - 컴파일러 vs 인터프리터 비교
+   - ISA 정의 및 중요성
+   - RISC vs CISC 비교 (ARM vs x86)
+   - 레지스터 및 메모리 계층
+   - 명령어 형식 및 주소 지정 방식
+   - ARM/x86 어셈블리 기초
+
+2. **[2025-02-07] 어휘 분석 (Lexical Analysis)** (1,013줄)
+   - 컴파일러 구조 개요
+   - 토큰, 렉셈, 패턴 개념
+   - 정규 표현식 및 유한 오토마타
+   - Lex/Flex 도구 사용법
+   - 실제 렉서 구현
+
+3. **[2025-02-08] 구문 분석 Part 1 (Top-Down Parsing)** (763줄)
+   - 문맥 자유 문법(CFG)
+   - 유도 및 파스 트리
+   - 문법의 모호성과 제거
+   - 재귀 하강 파서 구현
+   - 좌재귀 제거 및 FIRST/FOLLOW 집합
+
+4. **[2025-02-09] 구문 분석 Part 2 (LL & LR Parsing)** (805줄)
+   - LL(1) 파서 및 파싱 테이블
+   - 상향식 구문 분석
+   - LR 파서 종류 (LR(0), SLR, LR(1), LALR)
+   - Yacc/Bison 사용법
+   - LL vs LR 비교
+
+5. **[2025-02-10] 의미 분석 (Semantic Analysis)** (1,008줄)
+   - 심볼 테이블 설계 및 구현
+   - 타입 체킹 시스템
+   - 추상 구문 트리(AST)
+   - 스코프 규칙
+   - 중간 코드 생성 (3주소 코드)
+
+### 🔨 **소프트웨어공학 강의 시리즈**
+
+**목표**: 소프트웨어 개발 생명주기 전반을 체계적으로 학습하여 실무 프로젝트 수행 능력 확보
+
+#### PDF 자료 목록
+
+사용 가능한 PDF (18개):
+1. `01_Introduction.pdf` - 소프트웨어공학 개론
+2. `02_Software_Processes.pdf` - 소프트웨어 프로세스
+3. `03_Feasibility_Study.pdf` - 타당성 조사
+4. `04_Software_Requirements.pdf` - 소프트웨어 요구사항
+5. `05_Requirements_Engineering.pdf` - 요구공학
+6. `06_System_Models.pdf` - 시스템 모델링
+7. `07_Introduction_to_UML_1.pdf` - UML 입문 1부
+8. `08_Introduction_to_UML_2.pdf` - UML 입문 2부
+9. `09_Software_Architecture.pdf` - 소프트웨어 아키텍처
+10. `10_1_Component_Level_Design.pdf` - 컴포넌트 수준 설계
+11. `10_2_Object_Oriented_Design_Principles.pdf` - 객체지향 설계 원칙
+12. `11_Usability_and_User_Interface_Design.pdf` - 사용성과 UI 설계
+13. `12_Project_Management.pdf` - 프로젝트 관리
+14. `13_Process_Improvement_CMMI.pdf` - 프로세스 개선 및 CMMI
+15. `14_1_Agile_Software_Development.pdf` - 애자일 소프트웨어 개발
+16. `14_2_Scrum.pdf` - 스크럼
+17. `15_People_Management.pdf` - 인력 관리
+18. `16_Implementation.pdf` - 구현
+19. `17_1_SW_Construction_1-1-Creating_High_Quality_Code.pdf` - 고품질 코드 작성 1-1
+20. `17_2_SW_Construction_1-2-Creating_High_Quality_Code.pdf` - 고품질 코드 작성 1-2
+
+#### 예상 포스트 시리즈
+
+**Part 1: 소프트웨어공학 기초**
+
+**1. [소프트웨어공학] Introduction**
+   - 출처: `01_Introduction.pdf`
+   - 예상 내용:
+     - 소프트웨어공학의 정의와 필요성
+     - 소프트웨어의 특성과 위기
+     - 소프트웨어 품질 속성
+     - 전문적 책임과 윤리
+
+**2. [소프트웨어공학] Software Processes**
+   - 출처: `02_Software_Processes.pdf`
+   - 예상 내용:
+     - 소프트웨어 프로세스 모델 (폭포수, 나선형, 증분)
+     - 프로세스 활동 (명세, 설계, 검증, 진화)
+     - 프로세스 개선
+
+**3. [소프트웨어공학] Feasibility Study**
+   - 출처: `03_Feasibility_Study.pdf`
+   - 예상 내용:
+     - 타당성 조사의 목적
+     - 기술적/경제적/운영적 타당성
+     - 비용-편익 분석
+
+**Part 2: 요구공학**
+
+**4. [소프트웨어공학] Software Requirements**
+   - 출처: `04_Software_Requirements.pdf`
+   - 예상 내용:
+     - 기능적/비기능적 요구사항
+     - 사용자 요구사항 vs 시스템 요구사항
+     - 요구사항 명세서 작성
+
+**5. [소프트웨어공학] Requirements Engineering**
+   - 출처: `05_Requirements_Engineering.pdf`
+   - 예상 내용:
+     - 요구사항 도출 (Elicitation)
+     - 요구사항 분석 및 협상
+     - 요구사항 검증 및 관리
+
+**6. [소프트웨어공학] System Models**
+   - 출처: `06_System_Models.pdf`
+   - 예상 내용:
+     - 시스템 모델링의 목적
+     - 컨텍스트 모델, 상호작용 모델
+     - 구조 모델, 행위 모델
+
+**Part 3: UML과 모델링**
+
+**7. [소프트웨어공학] Introduction to UML Part 1**
+   - 출처: `07_Introduction_to_UML_1.pdf`
+   - 예상 내용:
+     - UML 개요 및 다이어그램 분류
+     - Use Case Diagram
+     - Class Diagram
+     - Sequence Diagram
+
+**8. [소프트웨어공학] Introduction to UML Part 2**
+   - 출처: `08_Introduction_to_UML_2.pdf`
+   - 예상 내용:
+     - Activity Diagram
+     - State Machine Diagram
+     - Component Diagram
+     - Deployment Diagram
+
+**Part 4: 설계**
+
+**9. [소프트웨어공학] Software Architecture**
+   - 출처: `09_Software_Architecture.pdf`
+   - 예상 내용:
+     - 아키텍처 패턴 (Layered, Client-Server, MVC)
+     - 아키텍처 뷰 (4+1 View)
+     - 아키텍처 설계 결정
+
+**10. [소프트웨어공학] Component Level Design**
+   - 출처: `10_1_Component_Level_Design.pdf`
+   - 예상 내용:
+     - 컴포넌트 기반 설계
+     - 인터페이스 설계
+     - 컴포넌트 다이어그램
+
+**11. [소프트웨어공학] Object-Oriented Design Principles**
+   - 출처: `10_2_Object_Oriented_Design_Principles.pdf`
+   - 예상 내용:
+     - SOLID 원칙 (SRP, OCP, LSP, ISP, DIP)
+     - 디자인 패턴 (생성, 구조, 행위 패턴)
+     - 객체지향 설계 기법
+
+**12. [소프트웨어공학] Usability and UI Design**
+   - 출처: `11_Usability_and_User_Interface_Design.pdf`
+   - 예상 내용:
+     - 사용성 원칙 (Nielsen's Heuristics)
+     - UI 설계 프로세스
+     - 사용자 중심 설계
+
+**Part 5: 프로젝트 관리**
+
+**13. [소프트웨어공학] Project Management**
+   - 출처: `12_Project_Management.pdf`
+   - 예상 내용:
+     - 프로젝트 계획 및 일정 관리
+     - 위험 관리
+     - 인력 및 비용 추정 (COCOMO)
+
+**14. [소프트웨어공학] Process Improvement & CMMI**
+   - 출처: `13_Process_Improvement_CMMI.pdf`
+   - 예상 내용:
+     - 프로세스 성숙도 모델
+     - CMMI 레벨 (Initial, Managed, Defined, Quantitatively Managed, Optimizing)
+     - 프로세스 개선 전략
+
+**Part 6: 애자일 개발**
+
+**15. [소프트웨어공학] Agile Software Development**
+   - 출처: `14_1_Agile_Software_Development.pdf`
+   - 예상 내용:
+     - 애자일 선언문 및 원칙
+     - XP (Extreme Programming)
+     - TDD (Test-Driven Development)
+
+**16. [소프트웨어공학] Scrum**
+   - 출처: `14_2_Scrum.pdf`
+   - 예상 내용:
+     - 스크럼 프레임워크
+     - 스크럼 역할 (Product Owner, Scrum Master, Team)
+     - 스크럼 이벤트 (Sprint, Daily Scrum, Review, Retrospective)
+     - 스크럼 산출물 (Product Backlog, Sprint Backlog, Increment)
+
+**Part 7: 구현 및 코드 품질**
+
+**17. [소프트웨어공학] People Management**
+   - 출처: `15_People_Management.pdf`
+   - 예상 내용:
+     - 팀 구성 및 관리
+     - 동기부여 및 리더십
+     - 조직 문화
+
+**18. [소프트웨어공학] Implementation**
+   - 출처: `16_Implementation.pdf`
+   - 예상 내용:
+     - 구현 전략 및 코딩 표준
+     - 버전 관리
+     - 빌드 자동화
+
+**19. [소프트웨어공학] Creating High-Quality Code Part 1**
+   - 출처: `17_1_SW_Construction_1-1-Creating_High_Quality_Code.pdf`
+   - 예상 내용:
+     - 코드 품질 기준
+     - 가독성 및 유지보수성
+     - 네이밍 규칙
+
+**20. [소프트웨어공학] Creating High-Quality Code Part 2**
+   - 출처: `17_2_SW_Construction_1-2-Creating_High_Quality_Code.pdf`
+   - 예상 내용:
+     - 코드 리팩토링
+     - 코드 리뷰 프로세스
+     - 정적 분석 도구
+
+#### 포스트 작성 원칙
+
+- **이론과 실무의 연결**: 개념 설명 + 실제 프로젝트 적용 사례
+- **시각적 자료 활용**: UML 다이어그램, 프로세스 흐름도, 아키텍처 다이어그램
+- **단계별 학습**: 요구사항 → 설계 → 구현 → 관리 순차적 진행
+- **실무 도구 소개**: UML 도구, 프로젝트 관리 도구, 협업 도구
+- **사례 연구**: 실제 프로젝트 성공/실패 사례 분석
+
+#### 소프트웨어공학 시리즈 태그
+
+```yaml
+기초 개념: [software-engineering, software-process, quality-attributes]
+요구공학: [requirements, requirements-engineering, use-case, user-story]
+설계: [software-design, architecture, design-patterns, solid-principles]
+모델링: [uml, system-modeling, class-diagram, sequence-diagram]
+관리: [project-management, risk-management, estimation, cmmi]
+애자일: [agile, scrum, xp, tdd, sprint]
+구현: [implementation, coding-standards, code-quality, refactoring]
+팀워크: [team-management, collaboration, leadership]
+```
+
+#### 소프트웨어공학 포스트 Front Matter 템플릿
+
+```yaml
+---
+title: "[소프트웨어공학] 1. Introduction"
+date: 2025-02-XX 14:30:00 +0900
+categories: [Computer Science, Software Engineering]
+tags: [software-engineering, software-process, quality-attributes, theory]
+pin: false
+math: true
+mermaid: true
+---
+```
+
 ## 프로젝트 상태
 
-**최종 업데이트**: 2025-02-05
-**현재 상태**: 데이터베이스 포스트 시리즈 완료, 컴파일러 설계 시리즈 계획 중
+**최종 업데이트**: 2025-02-10
+**현재 상태**: 컴파일러 시리즈 완료 (5개 포스트), 소프트웨어공학 시리즈 계획 완료
 **배포 상태**: https://tmdals0611.github.io 에서 확인 가능
