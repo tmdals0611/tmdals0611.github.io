@@ -109,88 +109,54 @@ R N B Q K B N R
 
 ### 데이터셋 전략
 
-**선택한 방식**: 자체 데이터셋 생성
+**선택한 방식**: Kaggle Chess Evaluation Dataset 사용
 
-**이유**:
-1. **완전한 통제**: 데이터 품질 및 분포 제어 가능
-2. **균형잡힌 데이터셋**: 다양한 평가 범위 커버
-3. **빠른 시작**: 외부 의존성 없이 즉시 시작 가능
+**데이터셋 정보**:
+- **출처**: Kaggle Chess Evaluation Dataset (fen_analysis.csv)
+- **크기**: 336,903개 포지션
+- **형식**: FEN + Analysis (centipawn 평가)
+- **평가 범위**: -8,500 ~ +8,499 centipawns
 
-### 데이터셋 생성 방법
+**선택 이유**:
+1. **대규모 데이터**: 33만개 이상의 고품질 포지션
+2. **검증된 평가**: Stockfish 엔진 기반 정확한 평가
+3. **즉시 사용 가능**: 전처리된 형태로 제공
+4. **학습에 충분**: CNN 학습에 필요한 데이터 크기
 
-```mermaid
-graph TD
-    A[랜덤 게임 플레이] --> B[체스 포지션 수집]
-    B --> C[Simple Evaluation<br/>Material + Mobility]
-    C --> D[FEN + Evaluation<br/>데이터셋]
-    D --> E[CSV 파일 저장]
+### 데이터셋 로딩 및 확인
 
-    style A fill:#ffe6e6
-    style C fill:#e6f3ff
-    style E fill:#e6ffe6
+```bash
+# 데이터셋 확인
+head data/fen_analysis.csv
+wc -l data/fen_analysis.csv  # 336,904 lines
 ```
 
-### 평가 함수 (Simple Evaluation)
-
-현재는 간단한 Material-based 평가 사용:
-
-```python
-def simple_evaluation(board):
-    """
-    Material-based evaluation
-
-    Piece values:
-    - Pawn: 100
-    - Knight: 320
-    - Bishop: 330
-    - Rook: 500
-    - Queen: 900
-    """
-    piece_values = {
-        chess.PAWN: 100,
-        chess.KNIGHT: 320,
-        chess.BISHOP: 330,
-        chess.ROOK: 500,
-        chess.QUEEN: 900,
-        chess.KING: 0
-    }
-
-    score = 0
-    for square in chess.SQUARES:
-        piece = board.piece_at(square)
-        if piece:
-            value = piece_values[piece.piece_type]
-            if piece.color == chess.WHITE:
-                score += value
-            else:
-                score -= value
-
-    # Add mobility bonus
-    mobility_bonus = (white_mobility - black_mobility) * 2
-
-    return score + mobility_bonus
+**데이터 형식**:
+```csv
+FEN,Analysis
+rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1,-33
+rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2,34
+...
 ```
 
-> **참고**: 프로덕션 환경에서는 Stockfish 평가로 대체 예정
-
-### 데이터셋 생성 실행
+### 데이터 탐색 스크립트 실행
 
 ```bash
 cd src/data_processing
-python create_sample_dataset.py
+python explore_kaggle_dataset.py
 ```
 
-**생성 결과**:
+**분석 결과**:
 ```
-Playing 1000 random games...
-Total unique positions: 56,874
+Total positions: 336,903
+Numeric evaluations: 336,903 (100%)
+Non-numeric evaluations: 0
 
 Evaluation statistics (centipawns):
-  count: 56,874
-  mean: -14.13
-  std: 588.23
-  min: -2,978
-  max: +2,900
+  mean: 74.92
+  std: 1,776.13
+  min: -8,500
+  max: +8,499
 ```
 
 ---
@@ -201,11 +167,12 @@ Evaluation statistics (centipawns):
 
 | Metric | Value |
 |--------|-------|
-| **총 포지션 수** | 56,874 |
-| **메모리 사용량** | 6.50 MB |
+| **총 포지션 수** | 336,903 |
+| **메모리 사용량** | 36.85 MB |
 | **결측값** | 0 |
-| **평균 평가** | -14.13 centipawns |
-| **표준편차** | 588.23 |
+| **평균 평가** | +74.92 centipawns |
+| **표준편차** | 1,776.13 |
+| **유효한 FEN** | 100% |
 
 ### 평가 분포
 
@@ -216,15 +183,15 @@ bins = [-inf, -1000, -500, -200, -50, 50, 200, 500, 1000, inf]
 
 | 평가 범위 | 포지션 수 | 비율 |
 |----------|----------|------|
-| 매우 불리 (less than -1000) | 3,334 | 5.86% |
-| 불리 (-1000 to -500) | 5,999 | 10.55% |
-| 약간 불리 (-500 to -200) | 7,068 | 12.43% |
-| 작은 불리 (-200 to -50) | 4,888 | 8.59% |
-| **균형 (-50 to 50)** | **15,129** | **26.60%** |
-| 작은 유리 (50 to 200) | 5,610 | 9.86% |
-| 유리 (200 to 500) | 6,481 | 11.40% |
-| 매우 유리 (500 to 1000) | 5,401 | 9.50% |
-| 압도적 유리 (greater than 1000) | 2,964 | 5.21% |
+| 매우 불리 (less than -1000) | 6,526 | 1.94% |
+| 불리 (-1000 to -500) | 30,923 | 9.18% |
+| 약간 불리 (-500 to -200) | 43,658 | 12.96% |
+| 작은 불리 (-200 to -50) | 35,239 | 10.46% |
+| **균형 (-50 to 50)** | **78,354** | **23.26%** |
+| 작은 유리 (50 to 200) | 46,504 | 13.80% |
+| 유리 (200 to 500) | 50,581 | 15.01% |
+| 매우 유리 (500 to 1000) | 36,430 | 10.81% |
+| 압도적 유리 (greater than 1000) | 8,688 | 2.58% |
 
 ### 데이터 품질 검증
 
@@ -245,7 +212,7 @@ print(f"Valid positions: {sample_size - invalid_count}/{sample_size}")
 
 ### 데이터 시각화
 
-![Dataset Analysis](/assets/img/chess-ai/step1-dataset-analysis.png)
+![Dataset Analysis](/assets/img/chess-ai/step1-kaggle-dataset-analysis.png)
 _데이터셋 분석 결과: 평가 분포, Box Plot, 카테고리별 분포, 누적 분포_
 
 ### 샘플 포지션 예시
@@ -296,10 +263,10 @@ B . . . K P . .
    - PyTorch, python-chess 등 필수 라이브러리 설치
    - 프로젝트 디렉토리 구조 생성
 
-2. **데이터셋 생성**
-   - 56,874개 유니크 체스 포지션 생성
-   - Material-based 평가 함수 구현
-   - CSV 형식으로 저장
+2. **데이터셋 확보**
+   - Kaggle에서 336,903개 체스 포지션 데이터셋 확보
+   - Stockfish 기반 정확한 평가 점수
+   - 즉시 사용 가능한 형태로 제공
 
 3. **데이터 분석**
    - 기본 통계 및 분포 확인
@@ -307,10 +274,12 @@ B . . . K P . .
    - 시각화 생성
 
 ### 📈 데이터셋 특징
-- ✅ 균형잡힌 평가 분포 (균형 포지션 26.60%)
-- ✅ 넓은 평가 범위 커버 (-2,978 ~ +2,900)
-- ✅ 100% 유효한 FEN 문자열
-- ✅ 결측값 없음
+- ✅ **대규모 데이터**: 336,903개 포지션 (6배 증가)
+- ✅ **균형잡힌 분포**: 균형 포지션 23.26%
+- ✅ **넓은 범위**: -8,500 ~ +8,499 centipawns
+- ✅ **100% 유효**: 모든 FEN 문자열 검증 완료
+- ✅ **결측값 없음**: 완전한 데이터셋
+- ✅ **Stockfish 평가**: 신뢰할 수 있는 평가 기준
 
 ---
 
@@ -344,17 +313,19 @@ B . . . K P . .
 
 ## 💡 배운 점
 
-1. **데이터셋 생성의 중요성**
-   - 직접 생성함으로써 데이터 품질 완전 제어
-   - 프로젝트 요구사항에 맞춘 데이터 분포 조정 가능
+1. **Kaggle 데이터셋 활용의 이점**
+   - 직접 생성보다 6배 많은 데이터 확보
+   - Stockfish 기반 신뢰할 수 있는 평가
+   - 시간 절약하고 모델 개발에 집중 가능
 
 2. **Python-chess 라이브러리 활용**
    - 체스 규칙 구현 없이 바로 AI 개발 집중 가능
    - FEN 표기법과 UCI 이동 표기 자동 변환
 
-3. **Simple Evaluation의 한계**
-   - Material만으로는 tactical 포지션 평가 부족
-   - 향후 Stockfish 평가나 더 정교한 heuristic 필요
+3. **CNN 모델 선택의 근거**
+   - 체스판의 2D 공간 구조 활용
+   - AlphaZero와 Leela Chess Zero에서 증명된 성능
+   - 지역 패턴 학습에 최적화된 아키텍처
 
 ---
 
