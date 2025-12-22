@@ -1,5 +1,5 @@
 ---
-title: "[Chess AI] 3. CNN 모델 설계 및 학습 (완료)"
+title: "[Chess AI] 3. CNN 모델 설계 및 학습"
 date: 2024-12-22 16:00:00 +0900
 categories: [Machine Learning, Chess AI]
 tags: [machine-learning, neural-network, chess, cnn, pytorch, deep-learning, project, cuda, gpu]
@@ -8,9 +8,9 @@ math: true
 mermaid: true
 ---
 
-# Chess AI 프로젝트 - Phase 3-4: CNN 모델 설계, 학습 및 엔진 구현 시작
+# Chess AI 프로젝트 - Phase 3-4: CNN 모델 설계 및 학습
 
-Phase 2에서 데이터 전처리 파이프라인을 완성한 후, **Phase 3-4에서 CNN 모델을 설계하고 학습을 완료**했으며, **Phase 5.1에서 Move Generator를 구현**했습니다.
+Phase 2에서 데이터 전처리 파이프라인을 완성한 후, **Phase 3-4에서 CNN 모델을 설계하고 학습을 완료**했습니다.
 
 ## 📋 완료된 작업
 
@@ -18,8 +18,7 @@ Phase 2에서 데이터 전처리 파이프라인을 완성한 후, **Phase 3-4�
 2. ✅ **GPU Setup**: CUDA 11.8 + RTX 3060 설치
 3. ✅ **Full Training**: 50 epochs (28 epochs early stopped)
 4. ✅ **Model Evaluation**: 최종 성능 분석 완료
-5. ✅ **Move Generator**: python-chess 래퍼 구현 (Phase 5.1)
-6. ✅ **실험**: 개선 학습 및 12M 데이터셋 분석
+5. ✅ **실험**: 개선 학습 및 12M 데이터셋 분석
 
 ```mermaid
 graph TD
@@ -202,93 +201,6 @@ print(torch.cuda.get_device_name(0))  # RTX 3060 Laptop GPU
 
 ---
 
-## 🎮 Phase 5.1: Move Generator 구현 ✅
-
-### python-chess 래퍼 구현
-
-**파일**: `src/engine/move_generator.py`
-
-**기능**:
-```python
-class MoveGenerator:
-    def generate_legal_moves(fen: str) -> List[Dict]:
-        """Generate all legal moves from position"""
-        # Returns: move (UCI), san (algebraic), resulting_fen,
-        #          is_capture, is_check, is_promotion, is_castling
-
-    def count_legal_moves(fen: str) -> int:
-        """Count number of legal moves"""
-
-    def filter_moves(fen: str, captures_only=False, ...):
-        """Filter moves by type"""
-
-    def is_legal_move(fen: str, move_uci: str) -> bool:
-        """Validate move legality"""
-```
-
-### 테스트 결과: 10/12 통과 ✅
-
-```
-[PASS] Starting position (20 legal moves)
-[PASS] Castling (O-O, O-O-O)
-[PASS] En passant (exd6)
-[PASS] Promotions (Q, R, B, N)
-[PASS] Checkmate detection (0 moves)
-[PASS] Stalemate detection (0 moves)
-[PASS] Capture filtering
-[FAIL] Check filtering (position-specific issue)
-[PASS] Move validation
-[FAIL] Move result (FEN notation difference)
-[PASS] Tactical positions (Qxf7# found)
-[PASS] Endgame positions (6 moves)
-
-결과: 10/12 passed (83.3%)
-```
-
-**2개 실패 분석**:
-- Test 8: 특정 포지션 문제 (알고리즘은 정상)
-- Test 10: FEN en passant 표기 차이 (기능은 정상)
-
-**결론**: **Phase 5.2 진행 가능** ✅
-
----
-
-## 📊 최종 평가: 석사 논문용으로 충분한가?
-
-### Chess.com 레이팅 추정
-
-**현재 모델 (MAE 257cp)**:
-- **Evaluation only**: ~800-1000
-- **Minimax depth 3-4**: **~1200-1400** ← 목표
-- **Minimax depth 5-6 + optimization**: ~1400-1700
-
-**비교**:
-- 초보자: 400-1000
-- 중급자: 1000-1600
-- **우리 AI**: 1200-1400 (중급 하위)
-- Stockfish: 3000+
-
-### 학술적 가치
-
-✅ **충분히 사용 가능**:
-- 작동하는 체스 AI 완성
-- Supervised learning 개념 입증
-- 데이터 불균형 문제 분석
-- 다양한 실험 및 비교
-- 성능 개선 여지 논의 가능
-
-⚠️ **개선 여지 있음**:
-- 성능 목표 미달성 (MAE, R²)
-- Extreme positions 예측 부정확
-- 최신 엔진 대비 약함
-
-**결론**: **석사 논문용으로 충분** ✅
-- 기술적 구현 완료
-- 충분한 분석 및 실험
-- 개선 방향 제시 가능
-
----
-
 ## 💡 핵심 교훈
 
 ### 1. 데이터 품질 > 데이터 양
@@ -329,11 +241,15 @@ class MoveGenerator:
 
 ---
 
-## 🔜 다음 단계: Phase 5.2-5.3
+## 🔜 다음 단계: Phase 5-8
 
-### Phase 5.2: Minimax + Alpha-Beta Pruning
+### Phase 5: Chess Engine Implementation
 
-**구현 계획**:
+**Phase 5.1 - Move Generation**:
+- python-chess를 활용한 합법적인 수 생성
+- 특수 수 처리 (캐슬링, 앙파상, 프로모션)
+
+**Phase 5.2 - Minimax + Alpha-Beta Pruning**:
 ```python
 def minimax_alpha_beta(board, depth, alpha, beta, maximizing):
     """Minimax search with alpha-beta pruning"""
@@ -349,38 +265,35 @@ def minimax_alpha_beta(board, depth, alpha, beta, maximizing):
         return alpha
 ```
 
-**최적화**:
-- Move ordering (captures first)
-- Transposition table
-- Iterative deepening
-
-### Phase 5.3: 평가 함수 통합
-
-**목표**:
+**Phase 5.3 - 평가 함수 통합**:
 - CNN 모델을 Minimax에 통합
-- Batch evaluation로 속도 향상
 - Checkmate/stalemate 처리
+- 예상 성능: Depth 3 (~0.5초), Depth 4 (~2초)
 
-**예상 성능**:
-- Depth 3: ~0.5초
-- Depth 4: ~2초
-- Depth 5: ~10초
+### Phase 6: Testing & Validation
+
+**전술 퍼즐 테스트**:
+- 50+ 전술 문제로 정확도 측정
+- 체크메이트, 포크, 핀 등 전술 패턴
+
+**자가 대국 테스트**:
+- AI vs AI 100게임
+- 평균 게임 길이, 승률 분석
 
 ### Phase 7: 속도 최적화
 
 **목표**: depth=4를 <0.5초에
 
-**방법**:
-1. Batch evaluation (5-10× 향상)
-2. Move ordering (3× 향상)
-3. Transposition table (2-3× 향상)
-4. FP16 quantization (40% 향상)
+**최적화 방법**:
+1. Move ordering (캡처 우선)
+2. Transposition table
+3. Batch evaluation
+4. Iterative deepening
 
 ### Phase 8: GUI 구현
 
-**Flask + chessboard.js**:
-- 웹 기반 인터페이스
-- 드래그 앤 드롭 플레이
+**웹 인터페이스 (Flask + chessboard.js)**:
+- 드래그 앤 드롭으로 플레이
 - 실시간 평가 표시
 - 크로스 플랫폼
 
@@ -406,12 +319,10 @@ claude_project/
 │
 ├── 📁 src/
 │   ├── data_processing/            # 전처리 (4 files)
-│   ├── engine/                     # Phase 5
-│   │   └── move_generator.py       # ✅ 완료
+│   ├── engine/                     # Phase 5 (예정)
 │   └── model/                      # 모델 (4 files)
 │
-└── 📁 tests/
-    └── test_move_generator.py      # 10/12 passed
+└── 📁 tests/                       # 테스트 코드
 ```
 
 ---
@@ -424,20 +335,21 @@ claude_project/
 2. ✅ GPU 환경 구축 (CUDA 11.8, RTX 3060)
 3. ✅ Full training (28 epochs, early stopped)
 4. ✅ 최종 성능: MAE 257cp, R² 0.614
-5. ✅ Move Generator 구현 (10/12 tests)
-6. ✅ 개선 실험 (weighted loss - 실패)
-7. ✅ 12M 데이터셋 분석 (사용 안 함)
+5. ✅ 개선 실험 (weighted loss - 실패)
+6. ✅ 12M 데이터셋 분석 (사용 안 함)
 
 ### 다음 작업 🚀
 
-1. Phase 5.2: Minimax + Alpha-Beta
-2. Phase 5.3: 평가 함수 통합
-3. Phase 6: 테스트 & 검증
-4. Phase 7: 속도 최적화
-5. Phase 8: GUI 구현
+1. Phase 5: Chess Engine Implementation
+   - Move generation
+   - Minimax + Alpha-Beta pruning
+   - 평가 함수 통합
+2. Phase 6: Testing & Validation
+3. Phase 7: 속도 최적화
+4. Phase 8: GUI 구현
 
 **예상 완료**: 2-3주 이내
 
 ---
 
-**다음 포스트**: Phase 5.2-5.3 - Minimax Search & Evaluation Integration
+**다음 포스트**: Phase 5 - Chess Engine Implementation
