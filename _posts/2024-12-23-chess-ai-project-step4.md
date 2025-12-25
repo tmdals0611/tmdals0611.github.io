@@ -252,17 +252,25 @@ def order_moves(board: chess.Board, moves: List[chess.Move]) -> List[chess.Move]
 
 **목적**: Minimax의 리프 노드에서 포지션 평가
 
+**중요**: 전통적 Minimax에서는 **항상 동일한 관점에서 평가**해야 합니다!
+
 ```python
 def evaluate_position(
     board: chess.Board,
     model: torch.nn.Module,
     device: str = 'cpu'
 ) -> float:
-    """Evaluate chess position using trained CNN"""
+    """
+    Evaluate chess position using trained CNN
+
+    Returns: ALWAYS from WHITE's perspective (positive = white advantage)
+    """
 
     # Handle terminal positions
     if board.is_checkmate():
-        return -10.0  # Worst for side to move
+        # If white checkmated: bad for white (-10)
+        # If black checkmated: good for white (+10)
+        return -10.0 if board.turn == chess.WHITE else +10.0
 
     if board.is_stalemate() or board.is_insufficient_material():
         return 0.0  # Draw
@@ -276,18 +284,15 @@ def evaluate_position(
     with torch.no_grad():
         evaluation = model(position_tensor).item()
 
-    # Flip sign if black to move (model predicts from white's perspective)
-    if board.turn == chess.BLACK:
-        evaluation = -evaluation
-
+    # Model predicts from white's perspective
+    # Return as-is (no sign flipping!)
     return evaluation
 ```
 
-**특징**:
-- Checkmate: -10.0 (최악)
-- Stalemate: 0.0 (무승부)
-- Normal positions: CNN 예측값 (-1.0 ~ +1.0)
-- Black to move: 부호 반전
+**핵심 변경사항** ⚠️:
+- **항상 백(White) 관점 반환**: 부호 반전 제거!
+- **Checkmate 처리**: 백/흑 구분하여 정확한 값 반환
+- **이유**: 전통적 Minimax는 Max=백 최대화, Min=백 최소화
 
 ### 최선의 수 찾기
 
@@ -307,17 +312,27 @@ def find_best_move(
     best_move = None
     best_value = -float('inf')
 
+    # 현재 플레이어가 백인지 확인
+    is_white_turn = board.turn == chess.WHITE
+
     for move in ordered_moves:
         board.push(move)
 
-        # Negamax style: flip sign
-        value = -minimax_alpha_beta(
+        # Traditional Minimax:
+        # - 백 차례: 백 점수 최대화 (상대는 Min)
+        # - 흑 차례: 백 점수 최소화 (상대는 Max)
+        value = minimax_alpha_beta(
             board, depth - 1,
             -float('inf'), float('inf'),
-            False, model, device
+            not is_white_turn,  # 상대방 관점
+            model, device
         )
 
         board.pop()
+
+        # 흑 차례면 부호 반전 (백 관점 → 흑 관점)
+        if not is_white_turn:
+            value = -value
 
         if value > best_value:
             best_value = value
@@ -325,6 +340,11 @@ def find_best_move(
 
     return best_move, best_value, search_info
 ```
+
+**핵심 변경사항** ⚠️:
+- **Negamax style 제거**: `-minimax(...)` 삭제
+- **전통적 Minimax**: 상대방에게 올바른 Max/Min 전달
+- **흑 차례 처리**: 백 관점 값을 흑 관점으로 변환
 
 ---
 
@@ -473,6 +493,126 @@ Nodes/sec: 1,141
 - Depth 4: ~4,200 nodes ✅
 - Time: ~3.7초 ✅
 - **효율 개선: ~47%**
+
+---
+
+## 🐛 버그 발견 및 수정
+
+### 초기 구현의 문제점
+
+**테스트 중 이상한 현상 발견**:
+```
+Depth 2: 평가 = +0.11 (백 유리)
+Depth 3: 평가 = -0.08 (흑 유리?) ❌
+Depth 4: 평가 = +0.11 (다시 백 유리)
+```
+
+→ **깊이가 증가하면 더 정확해야 하는데, 오히려 악화됨!**
+
+### 원인 분석
+
+**문제 1: `evaluate_position`의 관점 혼란**
+
+```python
+# 잘못된 구현 ❌
+def evaluate_position(board, model):
+    evaluation = model(board)  # 백 관점
+
+    # 흑 차례면 부호 반전
+    if board.turn == chess.BLACK:
+        evaluation = -evaluation
+
+    return evaluation  # 현재 차례 플레이어 관점
+```
+
+**문제점**:
+- Max 레벨(백 차례): 백 관점 평가
+- Min 레벨(흑 차례): 흑 관점 평가
+- 각 레벨이 **다른 관점**으로 평가 → 비교 불가능!
+
+**예시**:
+```
+백 차례 (Max):
+  - Nf3 → 흑 차례 → 평가: -0.2 (흑 관점, 흑 불리)
+  - d4  → 흑 차례 → 평가: -0.1 (흑 관점, 흑 덜 불리)
+
+Max 선택: max(-0.2, -0.1) = -0.1 (d4 선택)
+
+하지만 -0.1 = 흑이 덜 불리 = 백이 덜 유리
+→ 백이 나쁜 수를 선택함! ❌
+```
+
+### 해결 방법
+
+**수정 1: 항상 백 관점으로 반환**
+
+```python
+# 올바른 구현 ✅
+def evaluate_position(board, model):
+    evaluation = model(board)  # 백 관점
+
+    # 부호 반전 제거!
+    return evaluation  # 항상 백 관점
+```
+
+**이제 일관성 유지**:
+- Max 레벨: 백 관점 점수 최대화
+- Min 레벨: 백 관점 점수 최소화
+- 모든 레벨이 **동일한 기준**으로 비교 ✅
+
+**수정 2: find_best_move 로직 수정**
+
+```python
+# 수정 전 (Negamax style) ❌
+value = -minimax_alpha_beta(board, ..., False)
+
+# 수정 후 (Traditional Minimax) ✅
+is_white_turn = board.turn == chess.WHITE
+value = minimax_alpha_beta(board, ..., not is_white_turn)
+
+# 흑 차례면 부호 반전
+if not is_white_turn:
+    value = -value
+```
+
+### 수정 후 검증
+
+**체크메이트 테스트**:
+```
+Qxf7#: 10.0000 ✅ (여전히 발견!)
+```
+
+**논리 검증**:
+```
+백 차례에서 Ke3 평가:
+  Depth 1: minimax → 흑의 최선 대응 찾기
+           → 백 관점 +0.11 반환
+  백 차례에서 +0.11 = 백 유리 ✅
+
+흑 차례에서 e7e5 평가:
+  Depth 1: minimax → 백의 최선 대응 찾기
+           → 백 관점 +0.05 반환
+  흑 차례: -(+0.05) = -0.05 (흑 관점, 흑 불리)
+  흑은 백 관점이 낮은 수 선택 ✅
+```
+
+### 교훈
+
+**전통적 Minimax 핵심 원칙**:
+1. ✅ **평가 함수는 항상 동일한 관점** (예: 백 관점)
+2. ✅ **Max 레벨: 그 관점 점수 최대화**
+3. ✅ **Min 레벨: 그 관점 점수 최소화**
+4. ✅ **Root에서만 필요시 부호 반전**
+
+**우리 실수**:
+- Negamax와 전통적 Minimax를 혼용
+- 평가 함수가 관점을 바꿔서 반환
+- Depth가 깊어질수록 오류 누적
+
+**결과**:
+- ✅ 논리 오류 수정 완료
+- ✅ 모든 깊이에서 일관된 평가
+- ✅ Scholar's Mate 여전히 발견
 
 ---
 
